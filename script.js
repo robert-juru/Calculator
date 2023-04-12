@@ -36,6 +36,7 @@ function operate(nr1, nr2, operator) {
         return power(nr1, nr2)
 }
 
+// display.textContent=nr1;
 let displayValue = display.textContent;
 display.textContent = 0;
 
@@ -74,7 +75,11 @@ operations.equal.addEventListener('click', () => {
     else
         prevOpDisplay = prevOp;
 
-    if (operator == '') {
+    if (operator == '' && nr2 == undefined) {
+        upperDisplay.textContent = nr1;
+        display.textContent = nr1;
+    }
+    else if (operator == '') {
         upperDisplay.textContent = nr1 + prevOpDisplay + nr2 + "=";
         nr1 = operate(nr1, nr2, prevOp)
         display.textContent = nr1;
@@ -170,17 +175,32 @@ for (let i = 0; i < numbers.length; i++) {
 
 let clear = document.querySelector('#clear');
 clear.addEventListener('click', () => {
-    display.textContent = "";
-    nr1 = 0;
-    nr2 = 0;
+    display.textContent = '0';
+    upperDisplay.textContent = '';
+    nr1 = null;
+    nr2 = null;
     operator = '';
+    prevOp = '';
     input = 0;
 })
 let backSpace = document.querySelector('#backspace');
+backSpace.addEventListener('click', () => {
+    if (nr1 !== undefined) {
+        nr1=nr1.toString().slice(0,-1);
+        display.textContent = display.textContent.slice(0, -1)
+    }
+    else {
+        display.textContent = display.textContent.slice(0, -1)
+        input = input.slice(0, -1);
+        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1)
+    }
+})
 let plusMinus = document.querySelector('#plusminus');
+
 let point = document.querySelector('#point');
 point.addEventListener('click', () => {
-    display.textContent += "."
+    // display.textContent += ".";
+    // input+=".";
 })
 
 
@@ -274,4 +294,3 @@ point.addEventListener('click', () => {
 // //     display.textContent += "9"
 //     nr1 += '9';
 // })
-
