@@ -2,7 +2,10 @@ let input = 0;
 let nr1;
 let nr2;
 let operator = '';
+let prevOp = '';
+let prevOpDisplay = '';
 let display = document.querySelector('.display')
+let upperDisplay = document.querySelector('#upper-display')
 
 function add(nr1, nr2) {
     return nr1 + nr2;
@@ -33,9 +36,8 @@ function operate(nr1, nr2, operator) {
         return power(nr1, nr2)
 }
 
-// display.textContent=nr1;
 let displayValue = display.textContent;
-// display.textContent = 0;
+display.textContent = 0;
 
 let operations = {
     equal: document.querySelector('#equal'),
@@ -52,59 +54,98 @@ let operations = {
 //apas pe +, nr1=14, input=0
 //input - 6,  apas pe = => nr2=, afisam result adica 6..
 
+
+//ex 5+3
+//input 5, apas pe + => display=5; upper=5+
+//input 3 => sus ramane upper+5, jos ramane doar 3
+// apas pe => sus nu ramane nimic, jos ramane 5+3=8
+
+
+
+
+
 operations.equal.addEventListener('click', () => {
-    nr2 = Number(input);
-    input = 0;
-    nr1 = operate(nr1, nr2, operator); //.toFixed(6)
-    display.textContent = nr1;
-    operator = '';
-})
-operations.plus.addEventListener('click', () => {
+    if (prevOp == '*')
+        prevOpDisplay = '×';
+    else if (prevOp == '/')
+        prevOpDisplay = '÷';
+    else if (prevOp == '**')
+        prevOpDisplay = '^';
+    else
+        prevOpDisplay = prevOp;
+
     if (operator == '') {
-        display.textContent += "+";
-        operator = "+";
+        upperDisplay.textContent = nr1 + prevOpDisplay + nr2 + "=";
+        nr1 = operate(nr1, nr2, prevOp)
+        display.textContent = nr1;
+    }
+    else {
+        nr2 = Number(input);
+        upperDisplay.textContent += (nr2 + "=");
+        input = 0;
+        nr1 = operate(nr1, nr2, operator); //.toFixed(6)
+        display.textContent = nr1;
+        prevOp = operator;
+        operator = '';
     }
 
+})
+operations.plus.addEventListener('click', () => {
     if (nr1 == null) {
         nr1 = Number(input);
+    }
+    if (operator == '') {
+        upperDisplay.textContent = Number(nr1);
+        upperDisplay.textContent += "+";
+        operator = "+";
     }
     input = 0;
 })
 operations.minus.addEventListener('click', () => {
+    if (nr1 == null) {
+        nr1 = Number(input);
+    }
     if (operator == '') {
-        display.textContent += "-";
+        upperDisplay.textContent = Number(nr1);
+        upperDisplay.textContent += "-";
         operator = "-";
     }
 
-    if (nr1 == null) {
-        nr1 = Number(input);
-    }
+
     input = 0;
 })
 operations.multiply.addEventListener('click', () => {
+    if (nr1 == null) {
+        nr1 = Number(input);
+    }
     if (operator == '') {
-        display.textContent += "×";
+        upperDisplay.textContent = Number(nr1);
+        upperDisplay.textContent += "×";
         operator = "*";
     }
 
-    if (nr1 == null) {
-        nr1 = Number(input);
-    }
+
     input = 0;
 })
 operations.divide.addEventListener('click', () => {
-    display.textContent += "÷";
-    operator = "/";
     if (nr1 == null) {
         nr1 = Number(input);
+    }
+    if (operator == '') {
+        upperDisplay.textContent = Number(nr1);
+        upperDisplay.textContent += "÷";
+        operator = "/";
     }
     input = 0;
 })
 operations.power.addEventListener('click', () => {
-    display.textContent += "^";
-    operator = "**";
     if (nr1 == null) {
         nr1 = Number(input);
+    }
+    if (operator == '') {
+        upperDisplay.textContent = Number(nr1);
+        upperDisplay.textContent += "^";
+        operator = "**";
     }
     input = 0;
 })
@@ -114,12 +155,15 @@ for (let i = 0; i < numbers.length; i++) {
     let number = numbers[i];
     number.addEventListener('click', function (event) {
         let numberValue = event.target.textContent;
+        if (operator !== '' && upperDisplay.textContent !== '') {
+            display.textContent = Number(input);
+        }
         input += numberValue;
         if (display.textContent == '0') {
             display.textContent = numberValue;
-        } else if (display.textContent.length >= 12) {
-
-        } else
+        }
+        else if (display.textContent.length >= 12) { }
+        else
             display.textContent += numberValue;
     });
 }
@@ -230,3 +274,4 @@ point.addEventListener('click', () => {
 // //     display.textContent += "9"
 //     nr1 += '9';
 // })
+
