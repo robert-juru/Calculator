@@ -183,99 +183,42 @@ operations.equal.addEventListener('click', () => {
     repeatOperation();
 
 })
-operations.plus.addEventListener('click', () => {
+function handleOperatorClick(op, symbol) {
     display.textContent = '0';
     if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
     } else calculateNumber();
     if (nr1 == null) {
-        nr1 = Number(input);
+      nr1 = Number(input);
     }
     if (operator == '') {
-        upperDisplay.textContent = Number(nr1);
-        upperDisplay.textContent += "+";
-        operator = "+";
+      upperDisplay.textContent = Number(nr1);
+      upperDisplay.textContent += symbol;
+      operator = op;
     } else if (operator !== '') {
-        operator = "+";
-        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
-        upperDisplay.textContent += "+";
+      operator = op;
+      upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
+      upperDisplay.textContent += symbol;
     }
     input = '';
-})
-operations.minus.addEventListener('click', () => {
-    display.textContent = '0';
-    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
-    } else calculateNumber();
-    if (nr1 == null) {
-        nr1 = Number(input);
-    }
-    if (operator == '') {
-        upperDisplay.textContent = Number(nr1);
-        upperDisplay.textContent += "-";
-        operator = "-";
-    } else if (operator !== '') {
-        operator = "-";
-        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
-        upperDisplay.textContent += "-";
-    }
-    input = '';
-})
-operations.multiply.addEventListener('click', () => {
-    display.textContent = '0';
-    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
-    } else calculateNumber();
-    if (nr1 == null) {
-        nr1 = Number(input);
-    }
-    if (operator == '') {
-        upperDisplay.textContent = Number(nr1);
-        upperDisplay.textContent += "×";
-        operator = "*";
-    } else if (operator !== '') {
-        operator = "*";
-        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
-        upperDisplay.textContent += "×";
-    }
-    input = '';
-})
-operations.divide.addEventListener('click', () => {
-    display.textContent = '0';
-    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
-    } else calculateNumber();
-    if (nr1 == null) {
-        nr1 = Number(input);
-    }
-    if (operator == '') {
-        upperDisplay.textContent = Number(nr1);
-        upperDisplay.textContent += "÷";
-        operator = "/";
-    } else if (operator !== '') {
-        operator = "/";
-        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
-        upperDisplay.textContent += "÷";
-    }
-    input = '';
-})
-operations.power.addEventListener('click', () => {
-    display.textContent = '0';
-    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
-        operator = "**";
-    } else calculateNumber();
-    if (nr1 == null) {
-        nr1 = Number(input);
-    }
-    if (operator == '') {
-        upperDisplay.textContent = Number(nr1);
-        upperDisplay.textContent += "^";
-        operator = "**";
-    } else if (operator !== '') {
-        operator = "**";
-        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
-        upperDisplay.textContent += "^";
-    }
-    input = '';
-})
+  }
+  operations.plus.addEventListener('click', () => {
+    handleOperatorClick("+", "+");
+  });
+  operations.minus.addEventListener('click', () => {
+    handleOperatorClick("-", "-");
+  });
+  operations.multiply.addEventListener('click', () => {
+    handleOperatorClick("*", "×");
+  });
+  operations.divide.addEventListener('click', () => {
+    handleOperatorClick("/", "÷");
+  });
+  operations.power.addEventListener('click', () => {
+    handleOperatorClick("**", "^");
+  });
+  
 let clear = document.querySelector('#clear');
-clear.addEventListener('click', clearDisplay)
+clear.addEventListener('click', clearDisplay);
 let backSpace = document.querySelector('#backspace');
 backSpace.addEventListener('click', () => {
     if (display.textContent.includes("e")) {
