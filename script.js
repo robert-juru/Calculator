@@ -7,6 +7,10 @@ let prevOpDisplay = '';
 let display = document.querySelector('.display')
 let upperDisplay = document.querySelector('#upper-display')
 display.textContent = 0;
+let plusMinus = document.querySelector('#plus-minus');
+plusMinus.addEventListener('click', negateNumber);
+let point = document.querySelector('#point');
+point.addEventListener('click', addDecimalPoint);
 
 function add(nr1, nr2) {
     return nr1 + nr2;
@@ -59,20 +63,14 @@ function checkLength() {
     }
 }
 function calculateNumber() {
-    // if (operator !=='' &&nr2!==undefined) {}
     if (operator == '' && nr2 == undefined) {
         nr1 = Number(input)
         upperDisplay.textContent = nr1;
-        display.textContent = nr1;
-        if (nr1 == undefined) {
-            display.textContent = Number(input);
-        }
     }
     else if (nr2 == undefined && input == '') {
         return nr1;
     }
-    else if (input == '' && operator !== '' && nr1 !== '' && nr2 !== '') {}
-    // else if (input =='') {}
+    else if (input == '' && operator !== '' && nr1 !== '' && nr2 !== '') { }
     else if (operator == '') {
         upperDisplay.textContent = nr1 + prevOpDisplay + nr2 + "=";
         nr1 = operate(nr1, nr2, prevOp);
@@ -85,10 +83,6 @@ function calculateNumber() {
         upperDisplay.textContent += (nr2 + "=");
         input = '';
         nr1 = operate(nr1, nr2, operator);
-        // if (nr1.toString().length > 15) {
-        //     nr1 = Number((nr1).toFixed(15 - nr1.toString().indexOf('.'))).toExponential(5)
-        //     //.toExponential(5)
-        // }
         checkLength();
         display.textContent = nr1;
         prevOp = operator;
@@ -107,12 +101,11 @@ function clearDisplay() {
 function clickNumber(event) {
     let numberValue = event.target.textContent;
     if (operator !== '' && upperDisplay.textContent !== '') {
-        if (input.includes(".")) {
-        } else
+        if (input.includes(".")) { } else
             display.textContent = Number(input);
     }
     if (nr1 !== undefined && nr2 !== undefined && operator == '' && input == '') {
-        nr1 = '';
+        nr1 = undefined;
         nr2 = undefined;
         prevOp = '';
         upperDisplay.textContent = '';
@@ -130,13 +123,53 @@ function clickNumber(event) {
         display.textContent += numberValue;
     }
 }
-
 let numbers = document.querySelectorAll('.number');
 for (let i = 0; i < numbers.length; i++) {
     let number = numbers[i];
     number.addEventListener('click', clickNumber);
 }
-
+function negateNumber() {
+    if (nr1 == undefined && nr2 == undefined) {
+        if (Number(input) > 0) {
+            input = -input;
+            display.textContent = "-" + display.textContent;
+        } else if (Number(input) < 0) {
+            input = -input;
+            display.textContent = display.textContent.substring(1);
+        }
+    }
+    else if (nr2 !== undefined && operator == '') {
+        if (nr1 > 0) {
+            nr1 = -nr1;
+            display.textContent = "-" + display.textContent;
+        } else if (nr1 < 0) {
+            nr1 = -nr1;
+            display.textContent = display.textContent.substring(1);
+        }
+    }
+    else {
+        if (Number(input) > 0) {
+            input = -input;
+            display.textContent = "-" + display.textContent;
+        } else if (Number(input) < 0) {
+            input = -input;
+            display.textContent = display.textContent.substring(1);
+        }
+    }
+}
+function addDecimalPoint() {
+    if (input.toString().includes(".") || display.textContent.includes(".")) { }
+    else if (display.textContent.length >= 12) { return; }
+    else if (typeof nr1 == 'number' && input == '' && operator == '') {
+        clearDisplay();
+        display.textContent += ".";
+        input += ".";
+    }
+    else {
+        display.textContent += ".";
+        input += ".";
+    }
+}
 let operations = {
     equal: document.querySelector('#equal'),
     plus: document.querySelector('#plus'),
@@ -151,6 +184,7 @@ operations.equal.addEventListener('click', () => {
 
 })
 operations.plus.addEventListener('click', () => {
+    display.textContent = '0';
     if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
     } else calculateNumber();
     if (nr1 == null) {
@@ -168,6 +202,7 @@ operations.plus.addEventListener('click', () => {
     input = '';
 })
 operations.minus.addEventListener('click', () => {
+    display.textContent = '0';
     if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
     } else calculateNumber();
     if (nr1 == null) {
@@ -185,6 +220,7 @@ operations.minus.addEventListener('click', () => {
     input = '';
 })
 operations.multiply.addEventListener('click', () => {
+    display.textContent = '0';
     if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
     } else calculateNumber();
     if (nr1 == null) {
@@ -202,6 +238,7 @@ operations.multiply.addEventListener('click', () => {
     input = '';
 })
 operations.divide.addEventListener('click', () => {
+    display.textContent = '0';
     if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
     } else calculateNumber();
     if (nr1 == null) {
@@ -219,6 +256,7 @@ operations.divide.addEventListener('click', () => {
     input = '';
 })
 operations.power.addEventListener('click', () => {
+    display.textContent = '0';
     if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
         operator = "**";
     } else calculateNumber();
@@ -243,151 +281,22 @@ backSpace.addEventListener('click', () => {
     if (display.textContent.includes("e")) {
         return;
     }
-    else if (operator !== "" && input == '') {
-    }
-    // else if (typeof nr1 == "number" && typeof nr2 == "number") {
-    //     nr1 = Number(nr1.toString().slice(0, -1));
-    //     upperDisplay.textContent = nr1;
-    //     display.textContent = display.textContent.slice(0, -1)
-    // }
+    else if (operator !== "" && input == '') { }
     else if (nr1 !== undefined && nr2 !== undefined && operator == '') {
         nr1 = Number(nr1.toString().slice(0, -1));
-        // nr2='';
         display.textContent = display.textContent.slice(0, -1)
     }
     else if (nr1 !== undefined && nr2 == undefined) {
         display.textContent = display.textContent.slice(0, -1)
-        input = input.slice(0, -1);
+        input = input.toString().slice(0, -1);
     }
     else if (operator !== '' && input !== '') {
-        input = input.slice(0, -1);
+        input = input.toString().slice(0, -1);
         display.textContent = display.textContent.slice(0, -1)
     }
     else {
         display.textContent = display.textContent.slice(0, -1)
-        input = input.slice(0, -1);
+        input = input.toString().slice(0, -1);
         upperDisplay.textContent = upperDisplay.textContent.slice(0, -1)
     }
 })
-let plusMinus = document.querySelector('#plusminus');
-
-let point = document.querySelector('#point');
-point.addEventListener('click', () => {
-    if (input.includes(".") || display.textContent.includes(".")) { }
-    else if (display.textContent.length >= 12) { return; }
-    else if (typeof nr1 == 'number' && input == '' && operator == '') {
-        clearDisplay();
-        display.textContent += ".";
-        input += ".";
-    }
-    else {
-        display.textContent += ".";
-        input += ".";
-    }
-})
-
-
-// let equal = document.querySelector('.equal');
-// equal.addEventListener('click', () => display.textContent += "=")
-// let plusBtn = document.querySelector('.plus');
-// plusBtn.addEventListener('click', () => display.textContent += "+")
-// let minusBtn = document.querySelector('.minus');
-// minusBtn.addEventListener('click', () => display.textContent += "-")
-// let divideBtn = document.querySelector('.divide');
-// divideBtn.addEventListener('click', () => display.textContent += "÷")
-// let multiplyBtn = document.querySelector('.multiply');
-// multiplyBtn.addEventListener('click', () => display.textContent += "×")
-// let powerBtn = document.querySelector('.power');
-// powerBtn.addEventListener('click', () => display.textContent += "^")
-
-// let zero = document.querySelector('#zero');
-// zero.addEventListener('click', () => {
-//     display.textContent += "0";
-//     nr1 += '0';
-// })
-// let one = document.querySelector('#one');
-// one.addEventListener('click', () => {
-//     if (display.textContent == '0')
-//         display.textContent = "1";
-//     else
-//         display.textContent += "1"
-//     nr1 += '1';
-// })
-// let two = document.querySelector('#two');
-// two.addEventListener('click', () => {
-//     if (display.textContent == '0')
-//         display.textContent = "2";
-//     else
-//         display.textContent += "2";
-//     nr1 += '2';
-// })
-// let three = document.querySelector('#three');
-// three.addEventListener('click', () => {
-//     if (display.textContent == '0')
-//         display.textContent = "3";
-//     else
-//         display.textContent += "3"
-//     nr1 += '3';
-// })
-// let four = document.querySelector('#four');
-// four.addEventListener('click', () => {
-//     if (display.textContent == '0')
-//     display.textContent = "4";
-// else
-//     display.textContent += "4"
-//     nr1 += '4';
-// })
-// let five = document.querySelector('#five');
-// five.addEventListener('click', () => {
-//     if (display.textContent == '0')
-//     display.textContent = "5";
-// else
-//     display.textContent += "5"
-//     nr1 += '5';
-// })
-// let six = document.querySelector('#six');
-// six.addEventListener('click', () => {
-//     if (display.textContent == '0')
-//     display.textContent = "6";
-// else
-//     display.textContent += "6"
-//     nr1 += '6';
-// })
-// let seven = document.querySelector('#seven');
-// seven.addEventListener('click', () => {
-//     if (display.textContent == '0')
-//     display.textContent = "7";
-// else
-//     display.textContent += "7"
-//     nr1 += '7';
-// })
-// let eight = document.querySelector('#eight');
-// eight.addEventListener('click', () => {
-//     if (display.textContent == '0')
-//         display.textContent = "8";
-//     else
-//         display.textContent += "8"
-//     nr1 += '8';
-// })
-// let nine = document.querySelector('#nine');
-// nine.addEventListener('click', () => {
-// //     if (display.textContent == '0')
-// //     display.textContent = "9";
-// // else
-// //     display.textContent += "9"
-//     nr1 += '9';
-// })
-
-//ex 5+3
-//input - 5, apas pe + => nr1=5, input=0
-//input - 9, apas pe = =>nr2=9, nr1=14, input=0,
-//apas pe +, nr1=14, input=0
-//input - 6,  apas pe = => nr2=, afisam result adica 6..
-
-
-//ex 5+3
-//input 5, apas pe + => display=5; upper=5+
-//input 3 => sus ramane upper+5, jos ramane doar 3
-// apas pe => sus nu ramane nimic, jos ramane 5+3=8
-
-
