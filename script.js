@@ -11,6 +11,10 @@ let plusMinus = document.querySelector('#plus-minus');
 plusMinus.addEventListener('click', negateNumber);
 let point = document.querySelector('#point');
 point.addEventListener('click', addDecimalPoint);
+let clear = document.querySelector('#clear');
+clear.addEventListener('click', clearDisplay)
+let backSpace = document.querySelector('#backspace');
+backSpace.addEventListener('click', handleBackspace);
 
 function add(nr1, nr2) {
     return nr1 + nr2;
@@ -170,57 +174,7 @@ function addDecimalPoint() {
         input += ".";
     }
 }
-let operations = {
-    equal: document.querySelector('#equal'),
-    plus: document.querySelector('#plus'),
-    minus: document.querySelector('#minus'),
-    multiply: document.querySelector('#multiply'),
-    divide: document.querySelector('#divide'),
-    power: document.querySelector('#power'),
-}
-operations.equal.addEventListener('click', () => {
-    calculateNumber();
-    repeatOperation();
-
-})
-function handleOperatorClick(op, symbol) {
-    display.textContent = '0';
-    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
-    } else calculateNumber();
-    if (nr1 == null) {
-      nr1 = Number(input);
-    }
-    if (operator == '') {
-      upperDisplay.textContent = Number(nr1);
-      upperDisplay.textContent += symbol;
-      operator = op;
-    } else if (operator !== '') {
-      operator = op;
-      upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
-      upperDisplay.textContent += symbol;
-    }
-    input = '';
-  }
-  operations.plus.addEventListener('click', () => {
-    handleOperatorClick("+", "+");
-  });
-  operations.minus.addEventListener('click', () => {
-    handleOperatorClick("-", "-");
-  });
-  operations.multiply.addEventListener('click', () => {
-    handleOperatorClick("*", "×");
-  });
-  operations.divide.addEventListener('click', () => {
-    handleOperatorClick("/", "÷");
-  });
-  operations.power.addEventListener('click', () => {
-    handleOperatorClick("**", "^");
-  });
-  
-let clear = document.querySelector('#clear');
-clear.addEventListener('click', clearDisplay);
-let backSpace = document.querySelector('#backspace');
-backSpace.addEventListener('click', () => {
+function handleBackspace() {
     if (display.textContent.includes("e")) {
         return;
     }
@@ -242,4 +196,135 @@ backSpace.addEventListener('click', () => {
         input = input.toString().slice(0, -1);
         upperDisplay.textContent = upperDisplay.textContent.slice(0, -1)
     }
+}
+function pressButton(button) {
+    button.click();
+}
+function keyboardSupport() {
+    document.addEventListener('keydown', (event) => {
+        if (event.key == "0") { pressButton(document.querySelector("#btn0")); }
+        else if (event.key == "1") { pressButton(document.querySelector("#one")); }
+        else if (event.key == "2") { pressButton(document.querySelector("#two")); }
+        else if (event.key == "3") { pressButton(document.querySelector("#three")); }
+        else if (event.key == "4") { pressButton(document.querySelector("#four")); }
+        else if (event.key == "5") { pressButton(document.querySelector("#five")); }
+        else if (event.key == "6") { pressButton(document.querySelector("#six")); }
+        else if (event.key == "7") { pressButton(document.querySelector("#seven")); }
+        else if (event.key == "8") { pressButton(document.querySelector("#eight")); }
+        else if (event.key == "9") { pressButton(document.querySelector("#nine")); }
+        else if (event.key == "+") { pressButton(document.querySelector("#plus")); }
+        else if (event.key == "-") { pressButton(document.querySelector("#minus")); }
+        else if (event.key == "*") { pressButton(document.querySelector("#multiply")); }
+        else if (event.key == "/") { pressButton(document.querySelector("#divide")); }
+        else if (event.key == "^") { pressButton(document.querySelector("#power")); }
+        else if (event.key == "Backspace") { pressButton(document.querySelector("#backspace")); }
+        else if (event.key == ".") { pressButton(document.querySelector("#point")); }
+        else if (event.key == "Escape") { pressButton(document.querySelector("#clear")); }
+        else if (event.key == "=" || event.key == "Enter") { pressButton(document.querySelector("#equal")); }
+    });
+}
+keyboardSupport();
+
+let operations = {
+    equal: document.querySelector('#equal'),
+    plus: document.querySelector('#plus'),
+    minus: document.querySelector('#minus'),
+    multiply: document.querySelector('#multiply'),
+    divide: document.querySelector('#divide'),
+    power: document.querySelector('#power'),
+}
+operations.equal.addEventListener('click', () => {
+    calculateNumber();
+    repeatOperation();
+})
+operations.plus.addEventListener('click', () => {
+    display.textContent = '0';
+    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
+    } else calculateNumber();
+    if (nr1 == null) {
+        nr1 = Number(input);
+    }
+    if (operator == '') {
+        upperDisplay.textContent = Number(nr1);
+        upperDisplay.textContent += "+";
+        operator = "+";
+    } else if (operator !== '') {
+        operator = "+";
+        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
+        upperDisplay.textContent += "+";
+    }
+    input = '';
+})
+operations.minus.addEventListener('click', () => {
+    display.textContent = '0';
+    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
+    } else calculateNumber();
+    if (nr1 == null) {
+        nr1 = Number(input);
+    }
+    if (operator == '') {
+        upperDisplay.textContent = Number(nr1);
+        upperDisplay.textContent += "-";
+        operator = "-";
+    } else if (operator !== '') {
+        operator = "-";
+        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
+        upperDisplay.textContent += "-";
+    }
+    input = '';
+})
+operations.multiply.addEventListener('click', () => {
+    display.textContent = '0';
+    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
+    } else calculateNumber();
+    if (nr1 == null) {
+        nr1 = Number(input);
+    }
+    if (operator == '') {
+        upperDisplay.textContent = Number(nr1);
+        upperDisplay.textContent += "×";
+        operator = "*";
+    } else if (operator !== '') {
+        operator = "*";
+        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
+        upperDisplay.textContent += "×";
+    }
+    input = '';
+})
+operations.divide.addEventListener('click', () => {
+    display.textContent = '0';
+    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
+    } else calculateNumber();
+    if (nr1 == null) {
+        nr1 = Number(input);
+    }
+    if (operator == '') {
+        upperDisplay.textContent = Number(nr1);
+        upperDisplay.textContent += "÷";
+        operator = "/";
+    } else if (operator !== '') {
+        operator = "/";
+        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
+        upperDisplay.textContent += "÷";
+    }
+    input = '';
+})
+operations.power.addEventListener('click', () => {
+    display.textContent = '0';
+    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
+        operator = "**";
+    } else calculateNumber();
+    if (nr1 == null) {
+        nr1 = Number(input);
+    }
+    if (operator == '') {
+        upperDisplay.textContent = Number(nr1);
+        upperDisplay.textContent += "^";
+        operator = "**";
+    } else if (operator !== '') {
+        operator = "**";
+        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
+        upperDisplay.textContent += "^";
+    }
+    input = '';
 })
