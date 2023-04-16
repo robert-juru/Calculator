@@ -59,9 +59,11 @@ function repeatOperation() {
 }
 function checkLength() {
     if (nr1.toString().split(".")[0].length > 12) {
-        nr1 = nr1.toExponential(5)
+        nr1 = nr1.toExponential(3);
+    } else if (nr1.toString().includes('.') && nr1.toString().length > 15) {
+        nr1 = nr1.toExponential(3);
     }
-    if (nr1.toString().includes('.') && !nr1.toString().includes('e')) {
+    else if (nr1.toString().includes('.') && !nr1.toString().includes('e')) {
         if (nr1.toString().split(".")[1].length > 4)
             nr1 = Number((nr1).toFixed(4));
         else return;
@@ -69,6 +71,7 @@ function checkLength() {
 }
 function calculateNumber() {
     buttonEffect.play();
+    if (nr1=="Oops") clearDisplay();
     if (operator == '' && nr2 == undefined) {
         nr1 = Number(input)
         upperDisplay.textContent = nr1;
@@ -216,7 +219,7 @@ function pressButton(button) {
 }
 function keyboardSupport() {
     document.addEventListener('keydown', (event) => {
-        if (event.key == "0") { pressButton(document.querySelector("#btn0")); }
+        if (event.key == "0") { pressButton(document.querySelector("#zero")); }
         else if (event.key == "1") { pressButton(document.querySelector("#one")); }
         else if (event.key == "2") { pressButton(document.querySelector("#two")); }
         else if (event.key == "3") { pressButton(document.querySelector("#three")); }
