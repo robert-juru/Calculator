@@ -15,6 +15,7 @@ let clear = document.querySelector('#clear');
 clear.addEventListener('click', clearDisplay)
 let backSpace = document.querySelector('#backspace');
 backSpace.addEventListener('click', handleBackspace);
+let buttonEffect = new Audio("sounds/key-effect.mp4");
 
 function add(nr1, nr2) {
     return nr1 + nr2;
@@ -67,6 +68,7 @@ function checkLength() {
     }
 }
 function calculateNumber() {
+    buttonEffect.play();
     if (operator == '' && nr2 == undefined) {
         nr1 = Number(input)
         upperDisplay.textContent = nr1;
@@ -81,7 +83,6 @@ function calculateNumber() {
         checkLength();
         display.textContent = nr1;
     }
-
     else {
         nr2 = Number(input);
         upperDisplay.textContent += (nr2 + "=");
@@ -94,6 +95,7 @@ function calculateNumber() {
     }
 }
 function clearDisplay() {
+    buttonEffect.play();
     display.textContent = '0';
     upperDisplay.textContent = '';
     nr1 = undefined; // inainte era cu null, daca nu mai merge, schimba la loc
@@ -103,6 +105,7 @@ function clearDisplay() {
     input = '';
 }
 function clickNumber(event) {
+    buttonEffect.play();
     let numberValue = event.target.textContent;
     if (operator !== '' && upperDisplay.textContent !== '') {
         if (input.includes(".")) { } else
@@ -133,6 +136,7 @@ for (let i = 0; i < numbers.length; i++) {
     number.addEventListener('click', clickNumber);
 }
 function negateNumber() {
+    buttonEffect.play();
     if (nr1 == undefined && nr2 == undefined) {
         if (Number(input) > 0) {
             input = -input;
@@ -162,6 +166,7 @@ function negateNumber() {
     }
 }
 function addDecimalPoint() {
+    buttonEffect.play();
     if (input.toString().includes(".") || display.textContent.includes(".")) { }
     else if (display.textContent.length >= 12) { return; }
     else if (typeof nr1 == 'number' && input == '' && operator == '') {
@@ -175,6 +180,7 @@ function addDecimalPoint() {
     }
 }
 function handleBackspace() {
+    buttonEffect.play();
     if (display.textContent.includes("e")) {
         return;
     }
