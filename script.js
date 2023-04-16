@@ -61,7 +61,10 @@ function checkLength() {
     if (nr1.toString().split(".")[0].length > 12) {
         nr1 = nr1.toExponential(3);
     } else if (nr1.toString().includes('.') && nr1.toString().length > 15) {
-        nr1 = nr1.toExponential(3);
+        if (nr1.toString().includes('e'))
+            nr1 = nr1.toExponential(3);
+        else
+            nr1 = nr1.toFixed(3);
     }
     else if (nr1.toString().includes('.') && !nr1.toString().includes('e')) {
         if (nr1.toString().split(".")[1].length > 4)
@@ -71,7 +74,7 @@ function checkLength() {
 }
 function calculateNumber() {
     buttonEffect.play();
-    if (nr1=="Oops") clearDisplay();
+    if (nr1 == "Oops") clearDisplay();
     if (operator == '' && nr2 == undefined) {
         nr1 = Number(input)
         upperDisplay.textContent = nr1;
@@ -254,94 +257,37 @@ operations.equal.addEventListener('click', () => {
     calculateNumber();
     repeatOperation();
 })
+function handleOperatorClick(op, symbol) {
+    display.textContent = '0';
+    if (operator == '' && input == '' && typeof nr1 !== undefined && typeof nr2 !== undefined) {
+    } else calculateNumber();
+    if (nr1 == null) {
+        nr1 = Number(input);
+    }
+    if (operator == '') {
+        upperDisplay.textContent = Number(nr1);
+        upperDisplay.textContent += symbol;
+        operator = op;
+    } else if (operator !== '') {
+        operator = op;
+        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
+        upperDisplay.textContent += symbol;
+    }
+    input = '';
+}
+
 operations.plus.addEventListener('click', () => {
-    display.textContent = '0';
-    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
-    } else calculateNumber();
-    if (nr1 == null) {
-        nr1 = Number(input);
-    }
-    if (operator == '') {
-        upperDisplay.textContent = Number(nr1);
-        upperDisplay.textContent += "+";
-        operator = "+";
-    } else if (operator !== '') {
-        operator = "+";
-        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
-        upperDisplay.textContent += "+";
-    }
-    input = '';
-})
+    handleOperatorClick("+", "+");
+});
 operations.minus.addEventListener('click', () => {
-    display.textContent = '0';
-    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
-    } else calculateNumber();
-    if (nr1 == null) {
-        nr1 = Number(input);
-    }
-    if (operator == '') {
-        upperDisplay.textContent = Number(nr1);
-        upperDisplay.textContent += "-";
-        operator = "-";
-    } else if (operator !== '') {
-        operator = "-";
-        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
-        upperDisplay.textContent += "-";
-    }
-    input = '';
-})
+    handleOperatorClick("-", "-");
+});
 operations.multiply.addEventListener('click', () => {
-    display.textContent = '0';
-    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
-    } else calculateNumber();
-    if (nr1 == null) {
-        nr1 = Number(input);
-    }
-    if (operator == '') {
-        upperDisplay.textContent = Number(nr1);
-        upperDisplay.textContent += "×";
-        operator = "*";
-    } else if (operator !== '') {
-        operator = "*";
-        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
-        upperDisplay.textContent += "×";
-    }
-    input = '';
-})
+    handleOperatorClick("*", "×");
+});
 operations.divide.addEventListener('click', () => {
-    display.textContent = '0';
-    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
-    } else calculateNumber();
-    if (nr1 == null) {
-        nr1 = Number(input);
-    }
-    if (operator == '') {
-        upperDisplay.textContent = Number(nr1);
-        upperDisplay.textContent += "÷";
-        operator = "/";
-    } else if (operator !== '') {
-        operator = "/";
-        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
-        upperDisplay.textContent += "÷";
-    }
-    input = '';
-})
+    handleOperatorClick("/", "÷");
+});
 operations.power.addEventListener('click', () => {
-    display.textContent = '0';
-    if (operator == '' && input == '' && typeof nr1 == "number" && typeof nr2 == "number") {
-        operator = "**";
-    } else calculateNumber();
-    if (nr1 == null) {
-        nr1 = Number(input);
-    }
-    if (operator == '') {
-        upperDisplay.textContent = Number(nr1);
-        upperDisplay.textContent += "^";
-        operator = "**";
-    } else if (operator !== '') {
-        operator = "**";
-        upperDisplay.textContent = upperDisplay.textContent.slice(0, -1);
-        upperDisplay.textContent += "^";
-    }
-    input = '';
-})
+    handleOperatorClick("**", "^");
+});
