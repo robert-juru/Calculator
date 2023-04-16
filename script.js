@@ -197,6 +197,14 @@ function handleBackspace() {
         upperDisplay.textContent = upperDisplay.textContent.slice(0, -1)
     }
 }
+function preventQuickFind() {
+    window.addEventListener('keydown', function (event) {
+        if (event.key === '/') {
+            event.preventDefault();
+        }
+    });
+}
+preventQuickFind();
 function pressButton(button) {
     button.click();
 }
