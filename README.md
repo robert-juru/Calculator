@@ -1,7 +1,7 @@
 # Calculator
 This is a calculator web application built with HTML, CSS and JavaScript. It allows users to perform basic arithmetic operations such as addition, subtraction, multiplication, division, as well as the power function.
 
-###LIVE:https://robert-juru.github.io/Calculator/
+### LIVE:https://robert-juru.github.io/Calculator/
 
 ![calculator](https://raw.githubusercontent.com/robert-juru/Calculator/main/calculator-preview.png)
 
